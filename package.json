@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --max-warnings=0",
+    "*.{json,html,css}": "prettier --write"
   },
   "dependencies": {
     "@luiz504-ignite-ui/react": "^1.2.0",
@@ -21,6 +26,10 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@rocketseat/eslint-config": "^1.2.0"
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@rocketseat/eslint-config": "^1.2.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.2"
   }
 }
