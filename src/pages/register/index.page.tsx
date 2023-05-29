@@ -12,6 +12,8 @@ import {
   TextInput,
 } from '@luiz504-ignite-ui/react'
 
+import { AxiosError, api } from '~/lib/axios'
+
 import { Container, Form, FormError, Header } from './styles'
 
 const registerFormSchema = z.object({
@@ -48,7 +50,15 @@ export default function Register() {
   }, [router.query?.username, setValue])
 
   async function handleRegister(data: RegisterFomData) {
-    console.log('data', data) //eslint-disable-line 
+    try {
+      await api.post('/users', { name: data.name, username: data.userName })
+    } catch (err: any) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        alert(err?.response?.data?.message)
+        return
+      }
+      console.log('err ##', err) //eslint-disable-line 
+    }
   }
 
   return (
