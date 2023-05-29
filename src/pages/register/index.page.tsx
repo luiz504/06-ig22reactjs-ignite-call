@@ -1,6 +1,9 @@
-import React from 'react'
-
-import { Container, Form, FormError, Header } from './styles'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { ArrowRight } from 'phosphor-react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Button,
   Heading,
@@ -8,10 +11,8 @@ import {
   Text,
   TextInput,
 } from '@luiz504-ignite-ui/react'
-import { ArrowRight } from 'phosphor-react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+
+import { Container, Form, FormError, Header } from './styles'
 
 const registerFormSchema = z.object({
   userName: z
@@ -32,8 +33,19 @@ export default function Register() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFomData>({ resolver: zodResolver(registerFormSchema) })
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const userName = router.query?.username
+
+    if (userName) {
+      setValue('userName', Array.isArray(userName) ? userName[0] : userName)
+    }
+  }, [router.query?.username, setValue])
 
   async function handleRegister(data: RegisterFomData) {
     console.log('data', data) //eslint-disable-line 
