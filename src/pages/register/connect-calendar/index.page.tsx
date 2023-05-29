@@ -3,10 +3,13 @@ import { ArrowRight } from 'phosphor-react'
 
 import { Container, Header } from '../styles'
 import { ConnectBox, ConnectItem } from './styles'
-import { signIn, useSession } from 'next-auth/react'
+import {
+  signIn,
+  //  useSession
+} from 'next-auth/react'
 
 export default function ConnectCalendar() {
-  const session = useSession()
+  // const session = useSession()
   return (
     <Container>
       <Header>
@@ -30,9 +33,8 @@ export default function ConnectCalendar() {
             Conectar <ArrowRight />
           </Button>
         </ConnectItem>
-        <Text>{JSON.stringify(session.data)}</Text>
 
-        <Button type="submit">
+        <Button type="submit" disabled>
           Próximo passo <ArrowRight />
         </Button>
       </ConnectBox>
