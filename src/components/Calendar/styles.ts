@@ -41,6 +41,7 @@ export const CalendarActions = styled('div', {
       color: '$gray100',
       transition: 'color 150ms',
     },
+
     '&:focus': {
       boxShadow: '0 0 0 2px $colors$gray100',
     },
