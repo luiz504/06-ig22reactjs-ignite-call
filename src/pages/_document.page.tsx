@@ -20,6 +20,7 @@ export default function Document() {
           id="stitches"
           dangerouslySetInnerHTML={{ __html: getCssText() }}
         />
+        <link rel="icon" href="/rocket-chat.svg" />
       </Head>
       <body>
         <Main />
