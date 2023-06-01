@@ -1,7 +1,7 @@
 interface GetWeekDaysParams {
   short?: boolean
 }
-export function getWeekDays({ short }: GetWeekDaysParams) {
+export function getWeekDays({ short }: GetWeekDaysParams = { short: false }) {
   const formatter = new Intl.DateTimeFormat('pt-BR', {
     weekday: 'long',
   })
