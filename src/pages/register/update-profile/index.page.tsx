@@ -1,9 +1,12 @@
 import { GetServerSideProps } from 'next'
-// import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { getServerSession } from 'next-auth'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
+  Avatar,
   Button,
   Heading,
   MultiStep,
@@ -11,10 +14,12 @@ import {
   Textarea,
 } from '@luiz504-ignite-ui/react'
 
+import { api } from '~/lib/axios'
+
+import { buildNextAuthOptions } from '~/pages/api/auth/[...nextauth].api'
+
 import { Container, Header } from '../styles'
 import { FormAnnotation, ProfileBox } from './styles'
-import { getServerSession } from 'next-auth'
-import { buildNextAuthOptions } from '~/pages/api/auth/[...nextauth].api'
 
 const updateProfileFormSchema = z.object({
   bio: z.string(),
@@ -23,6 +28,9 @@ const updateProfileFormSchema = z.object({
 type UpdateProfileFormData = z.infer<typeof updateProfileFormSchema>
 
 export default function UpdateProfile() {
+  const session = useSession()
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -32,12 +40,10 @@ export default function UpdateProfile() {
     resolver: zodResolver(updateProfileFormSchema),
   })
 
-  // const session = useSession()
-
-  // console.log('session', session)
-
   async function handleUpdateProfile(data: UpdateProfileFormData) {
-    console.log('data', data) //eslint-disable-line 
+    await api.put('/users/profile', { bio: data.bio })
+
+    await router.push(`/schedule/${session.data?.user.username}`)
   }
 
   return (
@@ -53,11 +59,16 @@ export default function UpdateProfile() {
         <ProfileBox as={'form'} onSubmit={handleSubmit(handleUpdateProfile)}>
           <label>
             <Text size="sm">Foto de Perfil</Text>
+
+            <Avatar
+              src={session.data?.user.avatar_url}
+              alt={session.data?.user.name}
+            />
           </label>
 
           <label>
             <Text size="sm">Sobre voce</Text>
-            <Textarea placeholder="Seu nome" {...register('bio')} />
+            <Textarea {...register('bio')} />
 
             <FormAnnotation size="sm">
               Fale um pouco sobre você. Isto será exibido em sua página pessoal.
