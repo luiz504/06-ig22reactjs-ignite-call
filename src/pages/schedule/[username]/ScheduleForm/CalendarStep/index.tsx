@@ -11,9 +11,14 @@ import dayjs from 'dayjs'
 import { api } from '~/lib/axios'
 import { useRouter } from 'next/router'
 
+interface Availability {
+  possibleTimes: number[]
+  availableTimes: number[]
+}
+
 export const CalendarStep = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  // const [availability, setAvailability] = useState(null)
+  const [availability, setAvailability] = useState<Availability | null>(null)
 
   const isDateSelected = !!selectedDate
 
@@ -36,7 +41,7 @@ export const CalendarStep = () => {
         },
       })
       .then((res) => {
-        console.log('res', res) //eslint-disable-line
+        setAvailability(res.data)
       })
   }, [selectedDate, userName])
 
@@ -49,19 +54,15 @@ export const CalendarStep = () => {
             {weekDay} <span> {dayAndMonth}</span>
           </TimePickerHeader>
           <TimePickerList>
-            <TimePickerItem type="button" disabled>
-              08:00h
-            </TimePickerItem>
-            <TimePickerItem type="button">09:00h</TimePickerItem>
-            <TimePickerItem type="button">10:00h</TimePickerItem>
-            <TimePickerItem type="button">11:00h</TimePickerItem>
-            <TimePickerItem type="button">12:00h</TimePickerItem>
-            <TimePickerItem type="button">13:00h</TimePickerItem>
-            <TimePickerItem type="button">14:00h</TimePickerItem>
-            <TimePickerItem type="button">15:00h</TimePickerItem>
-            <TimePickerItem type="button">16:00h</TimePickerItem>
-            <TimePickerItem type="button">17:00h</TimePickerItem>
-            <TimePickerItem type="button">18:00h</TimePickerItem>
+            {availability?.possibleTimes.map((hour) => (
+              <TimePickerItem
+                key={`possibleTime-${hour}`}
+                type="button"
+                disabled={!availability.availableTimes.includes(hour)}
+              >
+                {String(hour).padStart(2, '0')}:00h
+              </TimePickerItem>
+            ))}
           </TimePickerList>
         </TimePickerContainer>
       )}
