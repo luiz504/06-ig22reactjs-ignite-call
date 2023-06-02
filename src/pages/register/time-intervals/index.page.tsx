@@ -1,5 +1,7 @@
 import { useFieldArray, useForm, Controller } from 'react-hook-form'
+import { useRouter } from 'next/router'
 import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight } from 'phosphor-react'
 import {
   Button,
@@ -9,21 +11,21 @@ import {
   Text,
   TextInput,
 } from '@luiz504-ignite-ui/react'
-import { getWeekDays } from '~/utils/get-week-days'
 
+import { FormError } from '~/components/FormError'
 import { Container, Header } from '../styles'
 import {
-  FormError,
   IntervalBox,
   IntervalDay,
   IntervalInputs,
   IntervalItem,
   IntervalsContainer,
 } from './styles'
-import { zodResolver } from '@hookform/resolvers/zod'
+
+import { getWeekDays } from '~/utils/get-week-days'
 import { convertTimeStringToMinutes } from '~/utils/convert-time-string-to-minutes'
+
 import { api } from '~/lib/axios'
-import { useRouter } from 'next/router'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -162,9 +164,7 @@ export default function TimeIntervals() {
           ))}
         </IntervalsContainer>
 
-        {errors.intervals && (
-          <FormError size={'sm'}>{errors.intervals.message}</FormError>
-        )}
+        {errors.intervals && <FormError>{errors.intervals.message}</FormError>}
 
         <Button type="submit" disabled={isSubmitting}>
           Próximo passo <ArrowRight />

@@ -1,9 +1,10 @@
 import React from 'react'
-
-import { ConfirmForm, FormHeader, FormError, FormActions } from './styles'
 import { useForm } from 'react-hook-form'
 import { CalendarBlank, Clock } from 'phosphor-react'
 import { Button, Text, TextInput, Textarea } from '@luiz504-ignite-ui/react'
+
+import { ConfirmForm, FormHeader, FormActions } from './styles'
+// import { FormError } from '~/components/FormError'
 
 export function ConfirmStep() {
   const { handleSubmit } = useForm()
@@ -34,7 +35,6 @@ export function ConfirmStep() {
       <label>
         <Text size={'sm'}>Observações</Text>
         <Textarea />
-        <FormError>Some error</FormError>
       </label>
 
       <FormActions>
