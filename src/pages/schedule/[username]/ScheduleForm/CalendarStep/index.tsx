@@ -6,19 +6,39 @@ import {
   TimePickerItem,
   TimePickerList,
 } from './styles'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import { api } from '~/lib/axios'
+import { useRouter } from 'next/router'
 
 export const CalendarStep = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  // const [availability, setAvailability] = useState(null)
 
   const isDateSelected = !!selectedDate
+
+  const router = useRouter()
+  const userName = String(router.query.username)
 
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
 
   const dayAndMonth = selectedDate
     ? dayjs(selectedDate).format('DD[ de ]MMMM')
     : null
+
+  useEffect(() => {
+    if (!selectedDate) return
+
+    api
+      .get(`/users/${userName}/availability`, {
+        params: {
+          date: dayjs(selectedDate).format('YYYY-MM-DD'),
+        },
+      })
+      .then((res) => {
+        console.log('res', res) //eslint-disable-line
+      })
+  }, [selectedDate, userName])
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
