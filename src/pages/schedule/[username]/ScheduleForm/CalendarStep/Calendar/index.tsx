@@ -1,4 +1,9 @@
+import { useMemo, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { CaretLeft, CaretRight } from 'phosphor-react'
+
 import {
   CalendarActions,
   CalendarBody,
@@ -7,9 +12,9 @@ import {
   CalendarHeader,
   CalendarTitle,
 } from './styles'
+
 import { getWeekDays } from '~/utils/get-week-days'
-import { useMemo, useState } from 'react'
-import dayjs from 'dayjs'
+import { api } from '~/lib/axios'
 
 interface CalendarWeeek {
   week: number
@@ -21,6 +26,10 @@ type CalendarWeeks = CalendarWeeek[]
 interface CalendarProps {
   selectedDate?: Date | null
   onDateSelect: (date: Date) => void
+}
+
+interface BlockedDates {
+  blockedWeekDays: number[]
 }
 
 export const Calendar = ({ selectedDate, onDateSelect }: CalendarProps) => {
@@ -47,13 +56,32 @@ export const Calendar = ({ selectedDate, onDateSelect }: CalendarProps) => {
     // console.log('handlenextMonth', { nextMonth, currentDate })
   }
 
+  const router = useRouter()
+
+  const userName = String(router.query.username)
+
+  const { data: blockedDates } = useQuery<BlockedDates>({
+    queryKey: ['blocked-dates', { userName, currentYear, currentMonth }],
+    queryFn: async () => {
+      const response = await api.get(`/users/${userName}/blocked-dates`, {
+        params: {
+          year: currentYear,
+          month: currentMonth,
+        },
+      })
+      return response.data
+    },
+  })
+
   const calendarWeeks = useMemo(() => {
     const daysInMonthArray = Array.from(
       { length: currentDate.daysInMonth() },
       (_, i) => {
         const date = currentDate.set('date', i + 1)
 
-        const disabled = date.endOf('day').isBefore(new Date())
+        const disabled =
+          date.endOf('day').isBefore(new Date()) ||
+          !!blockedDates?.blockedWeekDays.includes(date.get('day'))
 
         return { date, disabled }
       },
@@ -101,7 +129,7 @@ export const Calendar = ({ selectedDate, onDateSelect }: CalendarProps) => {
     )
 
     return calendarWeeksArray
-  }, [currentDate])
+  }, [currentDate, blockedDates])
 
   return (
     <CalendarContainer>

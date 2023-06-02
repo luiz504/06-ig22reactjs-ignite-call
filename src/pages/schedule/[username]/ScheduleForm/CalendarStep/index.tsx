@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 
-import { Calendar } from '~/components/Calendar'
+import { Calendar } from './Calendar'
 import {
   Container,
   TimePickerContainer,
