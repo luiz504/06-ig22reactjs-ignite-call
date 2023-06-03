@@ -1,0 +1,7 @@
+{
+  "brach": "migrations",
+  "role": "Admin",
+  "username": "z91m3h48wpn3w7gk6cq1",
+  "password": "pscale_pw_tLyi4jVUyzwCn9td1N8dVEyWNqYWzD0EeHB3bst9IRq",
+  "DB_URL": "mysql://z91m3h48wpn3w7gk6cq1:pscale_pw_tLyi4jVUyzwCn9td1N8dVEyWNqYWzD0EeHB3bst9IRq@aws.connect.psdb.cloud/ignitecall?sslaccept=strict"
+}
