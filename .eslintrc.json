@@ -1,6 +1,7 @@
 {
   "extends": ["@rocketseat/eslint-config/react", "next/core-web-vitals"],
   "rules": {
-    "no-console": "warn"
+    "no-console": "warn",
+    "camelcase": "off"
   }
 }

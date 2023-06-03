@@ -12,9 +12,10 @@ import {
   TextInput,
 } from '@luiz504-ignite-ui/react'
 
-import { AxiosError, api } from '~/lib/axios'
+import { FormError } from '~/components/FormError'
+import { Container, Form, Header } from './styles'
 
-import { Container, Form, FormError, Header } from './styles'
+import { AxiosError, api } from '~/lib/axios'
 
 const registerFormSchema = z.object({
   userName: z

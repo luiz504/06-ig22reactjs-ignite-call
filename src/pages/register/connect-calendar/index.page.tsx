@@ -52,7 +52,7 @@ export default function ConnectCalendar() {
         </ConnectItem>
 
         {hasAuthError && (
-          <AuthError size="sm">
+          <AuthError>
             Falha ao se conectar ao Google, verfique se você habilitou as
             permissões de acesso ao Google Calendar.
           </AuthError>
