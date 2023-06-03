@@ -1,7 +1,9 @@
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
+import { DefaultSeo } from 'next-seo'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 import { globalStyles } from '~/styles/global'
 
 import '~/lib/dayjs'
@@ -15,7 +17,15 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <DefaultSeo
+          openGraph={{
+            type: 'website',
+            locale: 'pt_BR',
+            url: 'https://ignite-call.com.br',
+            siteName: 'Ignite Call',
+          }}
+        />
         <Component {...pageProps} />
       </QueryClientProvider>
     </SessionProvider>

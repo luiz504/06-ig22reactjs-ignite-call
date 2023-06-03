@@ -12,6 +12,9 @@ export default function Document() {
           crossOrigin="anonymous"
         />
 
+        <link rel="icon" href="/rocket-chat.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
           rel="stylesheet"
@@ -20,7 +23,6 @@ export default function Document() {
           id="stitches"
           dangerouslySetInnerHTML={{ __html: getCssText() }}
         />
-        <link rel="icon" href="/rocket-chat.svg" />
       </Head>
       <body>
         <Main />
