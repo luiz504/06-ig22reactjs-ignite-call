@@ -1,13 +1,16 @@
-import React from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import dayjs from 'dayjs'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarBlank, Clock } from 'phosphor-react'
 import { Button, Text, TextInput, Textarea } from '@luiz504-ignite-ui/react'
 
-import { ConfirmForm, FormHeader, FormActions } from './styles'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { FormError } from '~/components/FormError'
+
+import { ConfirmForm, FormHeader, FormActions } from './styles'
+
+import { api } from '~/lib/axios'
 
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres' }),
@@ -20,8 +23,13 @@ type ConfirmFormType = z.infer<typeof confirmFormSchema>
 interface ConfirmStepProps {
   schedulingDate: Date
   onCancel: () => void
+  onSuccess: () => void
 }
-export function ConfirmStep({ schedulingDate, onCancel }: ConfirmStepProps) {
+export function ConfirmStep({
+  schedulingDate,
+  onCancel,
+  onSuccess,
+}: ConfirmStepProps) {
   const {
     register,
     handleSubmit,
@@ -29,8 +37,21 @@ export function ConfirmStep({ schedulingDate, onCancel }: ConfirmStepProps) {
   } = useForm<ConfirmFormType>({
     resolver: zodResolver(confirmFormSchema),
   })
+
+  const router = useRouter()
+  const username = String(router.query.username)
+
   async function handleConfirmSchedulling(data: ConfirmFormType) {
-    console.log('data', data) // eslint-disable-line
+    const { name, email, observations } = data
+
+    await api.post(`/users/${username}/schedule`, {
+      name,
+      email,
+      observations,
+      date: schedulingDate,
+    })
+
+    onSuccess()
   }
 
   const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY')
