@@ -28,18 +28,18 @@ Setup a MySQL database locally with Docker - [Docker MySQL Documentation](https:
 
 1. Go to the [Google API Console](https://developers.google.com/identity/protocols/oauth2) and sign in.
 2. Create a project and select it.
-3. Navitate to `OAuth consent screen`.  
-   3.1. Select type `External` and fill in the required fields. Save the changes.
-   3.2. Scopes => Not required (defined at a granular level during the authentication process).
-   3.3. Tests => Not required.
-4. Go back to `Oauth consent screen` locate "Publising status" and click on "Publish APP".
-5. Navigate to `Credentials`
-   5.1. Click on `Create Credentials` > `OAuth client ID` > `Web application` > continue.
-   5.2. Provide a `name` for the OAuth client ID.
-   5.3. Create a "Authorised JavaScript origins" with the value `http://localhost:3000`.
-   5.4. create a "Authorised redirect URIs" with the value `http://localhost:3000/api/auth/callback/google`.
-   5.5. Create the client ID.
-   5.6. Once successful, **Download or Save the Credentials to use on `.env`** file.
+3. Navigate to `OAuth consent screen`.  
+    - Select type `External` and fill in the required fields. Save the changes.
+    - Scopes => Not required (defined at a granular level during the authentication process).
+    - Tests => Not required.
+4. Go back to `OAuth consent screen` locate "Publishing status" and click on "Publish APP".
+5. Navigate to `Credentials`.
+    - Click on `Create Credentials` > `OAuth client ID` > `Web application` > continue.
+    - Provide a `name` for the OAuth client ID.
+    - Create an "Authorized JavaScript origins" with the value `http://localhost:3000`.
+    - Create an "Authorized redirect URIs" with the value `http://localhost:3000/api/auth/callback/google`.
+    - Create the client ID.
+    - Once successful, **Download or Save the Credentials to use on `.env`** file.
 
 ### Environment Variables
 
